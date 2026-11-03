@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Catalyst Architecture Builder (prototype)
 
-## Getting Started
-
-First, run the development server:
+Drag-and-drop architecture diagrams for Zoho Catalyst, with screen recording and submission.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `/` — editor: drag components from the left palette, connect blocks by dragging between the dots, double-click to rename a block or label an arrow.
+- `/submissions` — submitted diagrams; `/submissions/<id>` shows the PNG, recording and diagram JSON.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Shortcuts: `V` select, `H` / hold `Space` pan, `T` add text, `Delete` remove, `⌘Z` / `⌘⇧Z` undo/redo.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
+Next.js 15 (App Router) · Tailwind CSS v4 · React Flow (`@xyflow/react`) canvas · Zustand store with snapshot-based undo/redo ·
+`html-to-image` PNG export (pinned to 1.11.11 — newer versions drop edge lines) · `getDisplayMedia` + `MediaRecorder` screen recording · zod validation.
 
-To learn more about Next.js, take a look at the following resources:
+## Where things live
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| | |
+|---|---|
+| `lib/blocks.ts` | Catalyst component catalogue — add a block here |
+| `lib/store.ts` | Nodes/edges, undo/redo history, autosave draft |
+| `lib/useScreenRecorder.ts` | Screen + mic recording hook |
+| `app/api/submissions` | `POST` submission, `GET` list, file streaming with Range support |
+| `lib/storage.ts` | Local-disk storage in `data/submissions/` — swap for Catalyst Data Store + Stratus |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Screen recording needs a desktop browser (Chrome, Edge, Firefox, Safari 13+) and asks for permission each time.

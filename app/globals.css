@@ -1,26 +1,36 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: #ffffff;
+  color: #0f172a;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Connection dots on Catalyst blocks: subtle until hovered or connecting. */
+.react-flow__handle.catalyst-handle {
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border: 2px solid #94a3b8;
+  opacity: 0.35;
+  transition: opacity 120ms, border-color 120ms;
+}
+.react-flow__node:hover .catalyst-handle,
+.react-flow__node.selected .catalyst-handle,
+.react-flow.connecting .catalyst-handle,
+.react-flow__handle.catalyst-handle.connectingto {
+  opacity: 1;
+}
+.react-flow__handle.catalyst-handle:hover,
+.react-flow__handle.catalyst-handle.valid {
+  border-color: #2563eb;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #2563eb;
 }
